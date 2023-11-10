@@ -43,7 +43,7 @@ gt_make_raster_from_grid <- function(grid_param_df,
                                      webshot_zoom = 1,
                                      webshot_delay = NULL,
                                      return_list_of_rasters = FALSE,
-                                     print_progress = TRUE
+                                     print_progress = TRUE,
                                      .html_file,
                                      .keep_html){
   
