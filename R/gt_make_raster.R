@@ -52,24 +52,26 @@ gt_make_raster <- function(location,
                            traffic_color_dist_metric = "CIEDE2000",
                            webshot_zoom = 1,
                            webshot_delay = NULL,
-                           print_progress = TRUE){
+                           print_progress = TRUE,
+                           .html_file = tempfile(pattern = "file", tmpdir = tempdir(), fileext = ".html"),
+                           .keep_html = FALSE){
   
   ## Set webshot_delay if null
   webshot_delay <- gt_estimate_webshot_delay(height, width, webshot_delay)
   
   ## Filename; as html
-  filename_html <- tempfile(pattern = "file", tmpdir = tempdir(), fileext = ".html")
+  # filename_html <- tempfile(pattern = "file", tmpdir = tempdir(), fileext = ".html")
   
   ## Make html
   gt_make_html(location = location,
                height = height,
                width = width,
                zoom = zoom,
-               filename = filename_html,
+               filename = .html_file,
                google_key = google_key)
   
   ## Make raster
-  r <- gt_html_to_raster(filename = filename_html,
+  r <- gt_html_to_raster(filename = html_file,
                          location = location,
                          height = height,
                          width = width,
@@ -81,7 +83,7 @@ gt_make_raster <- function(location,
                          print_progress = print_progress)
   
   ## Delete html file
-  unlink(filename_html)
+  if (!.keep_html){unlink(html_file)}
   
   return(r)
 }
