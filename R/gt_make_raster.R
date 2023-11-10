@@ -71,7 +71,7 @@ gt_make_raster <- function(location,
                google_key = google_key)
   
   ## Make raster
-  r <- gt_html_to_raster(filename = html_file,
+  r <- gt_html_to_raster(filename = .html_file,
                          location = location,
                          height = height,
                          width = width,
@@ -83,7 +83,7 @@ gt_make_raster <- function(location,
                          print_progress = print_progress)
   
   ## Delete html file
-  if (!.keep_html){unlink(html_file)}
+  if (!.keep_html){unlink(.html_file)}
   
   return(r)
 }
