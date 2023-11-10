@@ -43,7 +43,9 @@ gt_make_raster_from_grid <- function(grid_param_df,
                                      webshot_zoom = 1,
                                      webshot_delay = NULL,
                                      return_list_of_rasters = FALSE,
-                                     print_progress = TRUE){
+                                     print_progress = TRUE
+                                     .html_file,
+                                     .keep_html){
   
   
   ## Set webshot_delay if null
@@ -70,7 +72,9 @@ gt_make_raster_from_grid <- function(grid_param_df,
                           webshot_zoom   = webshot_zoom,
                           webshot_delay  = webshot_delay,
                           google_key     = google_key,
-                          print_progress = FALSE)
+                          print_progress = FALSE,
+                         .html_file = .html_file,
+                         .keep_html = .keep_html)
     
     return(r_i)
   })
