@@ -13,6 +13,7 @@
 #' @param webshot_delay How long to wait for Google traffic layer to render. Larger height/widths require longer delay times. If `NULL`, the following delay time (in seconds) is used: `delay = max(height,width)/200`.
 #' @param return_list_of_rasters Instead of merging traffic rasters produced for each grid together into one large raster, return a list of rasters (default: `FALSE`)
 #' @param print_progress Whether to print function progress (default: `TRUE`)
+#' @param tmp_folder Define the folder to use to create necessary html files (Default: `tempdir()`).
 #'
 #' @references Markus Hilpert, Jenni A. Shearston, Jemaleddin Cole, Steven N. Chillrud, and Micaela E. Martinez. [Acquisition and analysis of crowd-sourced traffic data](https://arxiv.org/abs/2105.12235). CoRR, abs/2105.12235, 2021.
 #' @references Pavel Pokorny. [Determining traffic levels in cities using google maps](https://ieeexplore.ieee.org/abstract/document/8326831). In 2017 Fourth International Conference on Mathematics and Computers in Sciences and in Industry (MCSI), pages 144–147, 2017.
@@ -44,8 +45,7 @@ gt_make_raster_from_grid <- function(grid_param_df,
                                      webshot_delay = NULL,
                                      return_list_of_rasters = FALSE,
                                      print_progress = TRUE,
-                                     .html_file,
-                                     .keep_html){
+                                     tmp_folder = tempdir()){
   
   
   ## Set webshot_delay if null
@@ -73,8 +73,7 @@ gt_make_raster_from_grid <- function(grid_param_df,
                           webshot_delay  = webshot_delay,
                           google_key     = google_key,
                           print_progress = FALSE,
-                         .html_file = .html_file,
-                         .keep_html = .keep_html)
+                          tmp_folder = tmp_folder)
     
     return(r_i)
   })

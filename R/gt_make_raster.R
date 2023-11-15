@@ -15,6 +15,7 @@
 #' @param webshot_zoom How many pixels should be created relative to height and width values. If `height` and `width` are set to `100` and `webshot_zoom` is set to `2`, the resulting raster will have dimensions of about `200x200` (default: `1`). 
 #' @param webshot_delay How long to wait for Google traffic layer to render. Larger height/widths require longer delay times. If `NULL`, the following delay time (in seconds) is used: `delay = max(height,width)/200`.
 #' @param print_progress Whether to print function progress (default: `TRUE`)
+#' @param tmp_folder Define the folder to use to create necessary html files (Default: `tempdir()`).
 #' 
 #' @references Markus Hilpert, Jenni A. Shearston, Jemaleddin Cole, Steven N. Chillrud, and Micaela E. Martinez. [Acquisition and analysis of crowd-sourced traffic data](https://arxiv.org/abs/2105.12235). CoRR, abs/2105.12235, 2021.
 #' @references Pavel Pokorny. [Determining traffic levels in cities using google maps](https://ieeexplore.ieee.org/abstract/document/8326831). In 2017 Fourth International Conference on Mathematics and Computers in Sciences and in Industry (MCSI), pages 144–147, 2017.
@@ -53,25 +54,24 @@ gt_make_raster <- function(location,
                            webshot_zoom = 1,
                            webshot_delay = NULL,
                            print_progress = TRUE,
-                           .html_file = tempfile(pattern = "file", tmpdir = tempdir(), fileext = ".html"),
-                           .keep_html = FALSE){
+                           tmp_folder = tempdir()){
   
   ## Set webshot_delay if null
   webshot_delay <- gt_estimate_webshot_delay(height, width, webshot_delay)
   
   ## Filename; as html
-  # filename_html <- tempfile(pattern = "file", tmpdir = tempdir(), fileext = ".html")
+  filename_html <- tempfile(pattern = "file", tmpdir = tmp_folder, fileext = ".html")
   
   ## Make html
   gt_make_html(location = location,
                height = height,
                width = width,
                zoom = zoom,
-               filename = .html_file,
+               filename = filename_html,
                google_key = google_key)
   
   ## Make raster
-  r <- gt_html_to_raster(filename = .html_file,
+  r <- gt_html_to_raster(filename = filename_html,
                          location = location,
                          height = height,
                          width = width,
@@ -80,10 +80,12 @@ gt_make_raster <- function(location,
                          traffic_color_dist_metric = traffic_color_dist_metric,
                          webshot_zoom = webshot_zoom,
                          webshot_delay = webshot_delay,
-                         print_progress = print_progress)
+                         print_progress = print_progress,
+                         tmp_folder = tmp_folder)
   
   ## Delete html file
-  if (!.keep_html){unlink(.html_file)}
+  #if (!.keep_html){unlink(.html_file)}
+  unlink(filename_html)
   
   return(r)
 }

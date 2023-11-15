@@ -19,6 +19,7 @@
 #' @param return_list_of_rasters Whether to return a list of raster tiles instead of mosaicing together. (Default: `FALSE`).
 #' @param mask_to_polygon Whether to mask raster to `polygon`. (Default: `TRUE`).
 #' @param print_progress Show progress for which grid / API query has been processed. (Default: `TRUE`).
+#' @param tmp_folder Define the folder to use to create necessary html files (Default: `tempdir()`).
 #'
 #' @references Markus Hilpert, Jenni A. Shearston, Jemaleddin Cole, Steven N. Chillrud, and Micaela E. Martinez. [Acquisition and analysis of crowd-sourced traffic data](https://arxiv.org/abs/2105.12235). CoRR, abs/2105.12235, 2021.
 #' @references Pavel Pokorny. [Determining traffic levels in cities using google maps](https://ieeexplore.ieee.org/abstract/document/8326831). In 2017 Fourth International Conference on Mathematics and Computers in Sciences and in Industry (MCSI), pages 144–147, 2017.
@@ -52,7 +53,8 @@ gt_make_raster_from_polygon <- function(polygon,
                                         reduce_hw = 10,
                                         return_list_of_rasters = FALSE,
                                         mask_to_polygon = TRUE,
-                                        print_progress = TRUE){
+                                        print_progress = TRUE,
+                                        tmp_folder = tempdir()){
   
   
   grid_param_df <- gt_make_grid(polygon          = polygon,
@@ -80,7 +82,8 @@ gt_make_raster_from_polygon <- function(polygon,
                                 webshot_delay  = webshot_delay,
                                 google_key     = google_key,
                                 return_list_of_rasters = return_list_of_rasters,
-                                print_progress = print_progress)
+                                print_progress = print_progress,
+                                tmp_folder = tmp_folder)
   
   if(mask_to_polygon & !return_list_of_rasters){
     r <- r %>%
