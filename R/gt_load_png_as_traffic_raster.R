@@ -77,7 +77,7 @@ gt_load_png_as_traffic_raster <- function(filename,
         dplyr::rename(hex = ".") %>%
         dplyr::mutate(hex_noff = str_replace_all(.data$hex, "FF$", ""))
       
-      lab_df <- color_df$hex_noff %>% 
+      lab_df <- color_df$hex %>% 
         schemr::hex_to_lab()
       
       color_df <- bind_cols(color_df,
@@ -140,7 +140,7 @@ gt_load_png_as_traffic_raster <- function(filename,
     raster::crs(r) <- sp::CRS("+init=epsg:3857")
     
     ## Convert to EPSG:4326
-    r <- raster::projectRaster(r, crs = CRS("+init=epsg:4326"), method = "ngb")
+    r <- raster::projectRaster(r, crs = sp::CRS("+init=epsg:4326"), method = "ngb")
     
   })
   
